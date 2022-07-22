@@ -1,0 +1,25 @@
+@{
+    Layout = "_Layout";
+}
+@model UniversityRegistrar.Models.Course
+<main class="create-form pt-5 text-center">
+    <h1 class="mb-4">Add New Course</h1>
+    <div class="container">
+        @using (Html.BeginForm())
+        {
+            <div class="form-group mt-3">
+                @Html.Label("Department" , null , new {@class = "form-label h5"})
+                @Html.DropDownList("DepartmentId" , null , new {@class = "form-control text-center"})
+            </div>
+            <div class="form-group mt-3">
+                @Html.Label("Course Name" , null , new{@class = "form-label h5"})
+                @Html.TextBoxFor(model => model.Name , new {@class = "form-control text-center"})
+            </div>
+            <div class="form-group mt-3">
+                @Html.Label("Course Number" , null , new {@class = "form-label h5"})
+                @Html.TextBoxFor(model => model.CourseNo , new {@class = "form-control text-center"})
+            </div> 
+            <input type="submit" class="btn btn-dark mt-3 btn-lg" value="Save">
+        }
+    </div>
+</main>

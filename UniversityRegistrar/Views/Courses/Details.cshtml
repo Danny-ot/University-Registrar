@@ -1,0 +1,150 @@
+@{
+    Layout = "_Layout";
+}
+@model UniversityRegistrar.Models.Course;
+
+<main class="sidebars_default">
+
+    @***************************** Left SideBar **************************@
+
+    <aside class="sidebar_left">
+        @Html.ActionLink("Edit Details" , "Edit" , new {id = Model.CourseId})
+        <button class="btn btn-block" id="course-students-button">
+            Students
+        </button>
+        <button class="btn btn-block" id="course-departments-button">
+            Departments
+        </button>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn delete-btn" data-bs-toggle="modal" data-bs-target="#Course_@Model.CourseId">
+            Delete
+        </button>
+    </aside>
+
+
+
+    @******************************** Right SideBar ************************@
+
+    <aside class="sidebar_right">
+        <div class="container">
+            <h1>Course Details</h1>
+            <h4>@Html.DisplayName("Course Name") - @Model.Name</h4>
+            <h4 class="mb-5">@Html.DisplayNameFor(model => model.CourseNo) - @Html.DisplayFor(model => model.CourseNo)</h4>
+
+            @* Students Table *@
+            <div class="table-responsive mt-2" id="course-students-div">
+                <h3>Students registered</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Student Id</th>
+                            <th scope="col">Student Name</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    @if (Model.CourseStudents.Count != 0)
+                    {
+                        <tbody>
+                            @foreach (var courseStudent in Model.CourseStudents)
+                            {
+                                <tr>
+                                    <td>@courseStudent.Student.StudentId</td>
+                                    <td>@courseStudent.Student.Name</td>
+                                    <td>
+                                        <button class="btn btn-outline-dark" data-bs-target="#CourseStudent_@courseStudent.CourseStudentId" data-bs-toggle="modal">Delete</button>
+                                    </td>
+                                </tr>
+
+                              
+
+                            }
+                        </tbody>
+
+                    }
+                </table>
+                    <p class="text-center">@Html.ActionLink("Add Student" , "AddStudent" , new { id = @Model.CourseId} , new {@class = "btn btn-dark"}) </p>
+            </div>
+
+            @************************** Departments Table *******************@
+
+            <div class="table-responsive mt-2 d-none" id="course-departments-div">
+                <h3>Departments registered</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Department Id</th>
+                            <th scope="col">Department Name</th>
+                        </tr>
+                    </thead>
+                    @if (Model.CourseDepartments.Count != 0)
+                    {
+                        <tbody>
+                            @foreach (var courseDepartment in Model.CourseDepartments)
+                            {
+                                <tr>
+                                    <td>@courseDepartment.Department.DepartmentId</td>
+                                    <td>@courseDepartment.Department.Name</td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    }
+                </table>
+            </div>
+            
+        </div>
+    </aside>
+</main>
+    @foreach (var courseStudent in Model.CourseStudents)
+            {
+                  <div class="modal fade" id="CourseStudent_@courseStudent.CourseStudentId" tabindex="-1"
+                            aria-labelledby="StudentLabel_@courseStudent.CourseStudentId" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="StudentLabel_@courseStudent.CourseStudentId">Delete @courseStudent.Student.Name</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Clicking delete will make this action final.</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                                @using (Html.BeginForm("DeleteStudent", "Courses"))
+                                                {
+                                                    @Html.Hidden("courseStudentId" , @courseStudent.CourseStudentId)
+                                                    <input type="submit" class="btn btn-outline-dark" value="Delete">
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+            }
+
+            @*********************** Delete Course Modal ********************@
+<div class="modal fade" id="Course_@Model.CourseId" tabindex="-1"
+                            aria-labelledby="CourseLabel_@Model.CourseId" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="CourseLabel_@Model.CourseId">Delete @Model.Name</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Clicking delete will delete @Model.Name Permanently</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                                @using (Html.BeginForm("Delete", "Courses"))
+                                                {
+                                                    @Html.Hidden("id");
+                                                    <input type="submit" class="btn btn-outline-dark" value="Delete">
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>

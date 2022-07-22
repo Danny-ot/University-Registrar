@@ -1,0 +1,19 @@
+@{
+    Layout = "_Layout";
+}
+@model UniversityRegistrar.Models.Course;
+<main class="create-form pt-5 text-center">
+    
+    <h1 class="mb-5">Add Student To This Course : @Html.DisplayFor(model => model.Name)</h1>
+    <div class="container">
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+                @Html.HiddenFor(model => model.CourseId)
+                @Html.Label("Select The Student" , null , new {@class = "h4"})
+                @Html.DropDownList("StudentId" , null , new {@class = "form-control text-center mt-2"})
+            </div>
+            <input type="submit" class="btn btn-dark mt-3 btn-lg" value="Save">
+        }
+    </div>
+</main>
