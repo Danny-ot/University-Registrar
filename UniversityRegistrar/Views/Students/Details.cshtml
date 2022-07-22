@@ -1,0 +1,100 @@
+@{
+    Layout = "_Layout";
+}
+@model UniversityRegistrar.Models.Student;
+
+<main class="sidebars_default">
+    <aside class="sidebar_left">
+        @Html.ActionLink("Edit Details" , "Edit" , new {id = Model.StudentId})
+        <!-- Button trigger modal -->
+        <button type="button" class="btn delete-btn" data-bs-toggle="modal" data-bs-target="#Student_@Model.StudentId">
+            Delete
+        </button>
+
+
+
+    </aside>
+    <aside class="sidebar_right">
+        <div class="container">
+            <h1>Student's Profile</h1>
+            <h4>@Html.DisplayName("Date Of Enrollment") - @Model.DateOfEnroll.ToString()</h4>
+            <h4>@Html.DisplayNameFor(model => model.Department) - @Html.DisplayFor(model => model.Department.Name)</h4>
+            <h3 class="mt-5">Deaprtment Courses</h3>
+            <div class="table-responsive mt-2">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Course No</th>
+                            <th scope="col">Course Name</th>
+                        </tr>
+                    </thead>
+                    @if (Model.Department.CourseDepartments.Count != 0)
+                    {
+                        <tbody>
+                            @foreach (var course in Model.Department.CourseDepartments)
+                            {
+                                <tr>
+                                    <td>@course.Course.CourseId</td>
+                                    <td>@course.Course.Name</td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                </table>
+            </div>
+           <h3 class="mt-5">Extra Courses</h3>
+            <div class="table-responsive mt-2">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Course No</th>
+                            <th scope="col">Course Name</th>    
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    @if (Model.CourseStudents.Count != 0)
+                    {
+                        <tbody>
+                            @foreach (var courseStudent in Model.CourseStudents)
+                            {
+                                <tr>
+                                    <td>@courseStudent.Course.CourseNo</td>
+                                    <td>@courseStudent.Course.Name</td>
+                                    <td>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                </table>
+            </div>
+        </div>
+
+        @* Modal For Delete Details *@
+
+        <div class="modal fade" id="Student_@Model.StudentId" tabindex="-1"
+            aria-labelledby="StudentLabel_@Model.StudentId" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="StudentLabel_@Model.StudentId">Delete @Model.Name Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Clicking Delete will remove @Model.Name Detail's parmanently</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        @using (Html.BeginForm("Delete", "Students"))
+                        {
+                            @Html.Hidden("id")
+                            <input type="submit" value="Delete" class="btn btn-danger" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </aside>
+</main>
