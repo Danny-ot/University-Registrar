@@ -1,0 +1,17 @@
+@{
+    Layout = "_Layout";
+}
+@model UniversityRegistrar.Models.Department
+<main class="create-form pt-5 text-center">
+    <h1 class="mb-4">Add new department</h1>
+    <div class="container">
+        @using (Html.BeginForm())
+        {
+            <div class="form-group mt-3">
+                @Html.Label("Department Name" , null , new{@class = "form-label h5"})
+                @Html.TextBoxFor(department => department.Name , new {@class = "form-control text-center"})
+            </div>
+            <input type="submit" class="btn btn-dark mt-3 btn-lg" value="Submit">
+        }
+    </div>
+</main>

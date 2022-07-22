@@ -1,0 +1,123 @@
+@{
+    Layout = "_Layout";
+}
+@model UniversityRegistrar.Models.Department;
+
+<main class="sidebars_default">
+
+    @***************************** Left SideBar **************************@
+
+    <aside class="sidebar_left">
+        @Html.ActionLink("Edit Details" , "Edit" , new {id = Model.DepartmentId})
+        @* <button class="btn btn-block" id="department-students-button">
+            Students
+        </button>
+        <button class="btn btn-block" id="department-courses-button">
+            Courses
+        </button> *@
+        <!-- Button trigger modal -->
+        <button type="button" class="btn delete-btn" data-bs-toggle="modal" data-bs-target="#DepartmentDelete_@Model.DepartmentId">
+            Delete
+        </button>
+    </aside>
+
+
+
+    @******************************** Right SideBar ************************@
+
+    <aside class="sidebar_right">
+        <div class="container">
+            <h2>@Html.DisplayName("Department Name") - @Model.Name</h2>
+
+            @******************** Students Table **********************@
+
+            <div class="table-responsive mt-4" id="department-students-div">
+                <h3>Students registered</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Student Id</th>
+                            <th scope="col">Student Name</th>
+                        </tr>
+                    </thead>
+                    @if (Model.Students.Count != 0)
+                    {
+                        <tbody>
+                            @foreach (var student in Model.Students)
+                            {
+                                <tr>
+                                    <td>@student.StudentId</td>
+                                    <td>@student.Name</td>
+                                    @* <td>
+                                        <button class="btn btn-outline-dark" data-bs-target="#DepartmentStudent_@student.StudentId" data-bs-toggle="modal">Delete</button>
+                                    </td> *@
+                                </tr>
+
+                              
+
+                            }
+                        </tbody>
+
+                    }
+                </table>
+            </div>
+
+            @************************* Courses Table *****************************@
+            <div class="table-responsive mt-4" id="department-courses-div">
+                <h3>Courses registered</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Course No</th>
+                            <th scope="col">Course Name</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    @if (Model.CourseDepartments.Count != 0)
+                    {
+                        <tbody>
+                            @foreach (var courseDepartment in Model.CourseDepartments)
+                            {
+                                <tr>
+                                    <td>@courseDepartment.Course.CourseNo</td>
+                                    <td>@courseDepartment.Course.Name</td>
+                                    @* <td>
+                                        <button class="btn btn-outline-dark" data-bs-target="#DepartmentCourse_@courseDepartment.CourseDepartmentId" data-bs-toggle="modal">Delete</button>
+                                    </td> *@
+                                </tr>
+
+                              
+
+                            }
+                        </tbody>
+
+                    }
+                </table>
+            </div>
+        </div>
+    </aside>
+</main>
+   <div class="modal fade" id="DepartmentDelete_@Model.DepartmentId" tabindex="-1"
+                            aria-labelledby="DepartmentDeleteLabel_@Model.DepartmentId" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="DepartmentDeleteLabel_@Model.DepartmentId">Delete @Model.Name</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Clicking delete will delete @Model.Name Permanently</p>
+                                            </div>`
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                                @using (Html.BeginForm("Delete", "Departments"))
+                                                {
+                                                    @Html.Hidden("id");
+                                                    <input type="submit" class="btn btn-outline-dark" value="Delete">
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
