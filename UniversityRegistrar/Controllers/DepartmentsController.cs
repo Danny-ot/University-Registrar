@@ -54,7 +54,7 @@ namespace UniversityRegistrar.Controllers
 
          public ActionResult Edit(int id)
         {
-            Department department = _db.Departments.FirstOrDefault(cours => cours.CourseId == id);
+            Department department = _db.Departments.FirstOrDefault(depart => depart.DepartmentId == id);
             return View(department);
         }
 
